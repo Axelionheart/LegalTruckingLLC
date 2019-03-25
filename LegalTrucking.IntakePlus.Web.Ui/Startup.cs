@@ -18,12 +18,22 @@ namespace LegalTrucking.IntakePlus.Web.Ui
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        /* public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+        }*/
+
+        public Startup(IHostingEnvironment env)
+        {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddEnvironmentVariables();
+
+            Configuration = builder.Build();
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -35,6 +45,7 @@ namespace LegalTrucking.IntakePlus.Web.Ui
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -43,7 +54,12 @@ namespace LegalTrucking.IntakePlus.Web.Ui
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddMvc();
+            services.AddOptions();
+            services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -8,11 +10,14 @@ namespace LegalTrucking.Tests.Acceptance
     internal class IntakePlusBackEndServer
     {
         private Process _process;
-        private readonly string ui_project_path = "D:\\dev\\LegalTrucking\\LegalTrucking.Web.Ui";
+        public  IConfiguration Configuration { get; set; }
+
         internal void StartServingApplication()
         {
             var projectName = "LegalTrucking.IntakePlus.Web.UI";
-            var applicationPath = ui_project_path;
+
+            var applicationPath = Configuration["ApplicationSettings"];
+
             _process = new Process
             {
                 StartInfo =

@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <UserSecretsId>aspnet-LegalTrucking.IntakePlus.Web.Ui-5B10C7A6-681A-4C38-B252-BACDDE419B5C</UserSecretsId>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
 
 
