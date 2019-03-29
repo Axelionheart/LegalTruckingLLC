@@ -9,6 +9,9 @@ namespace LegalTrucking.Tests.Acceptance
         private IntakePlusBackEndServer _server;
         private ApplicationRunner _application;
 
+        private readonly String USERNAME = "atillman@gmail.com";
+        private readonly String PASSWORD = "testing123";
+
         public IntakePlusEndToEndTests()
         {
             _server = new IntakePlusBackEndServer();
@@ -19,7 +22,7 @@ namespace LegalTrucking.Tests.Acceptance
         public void displaysWelcomeWhenUserLogsIn()
         {
             _server.StartServingApplication();
-            _application.LogIn();
+            _application.LogIn(USERNAME, PASSWORD);
             _application.HasShownUserWelcome();
             _server.StopServingApplication();
         }

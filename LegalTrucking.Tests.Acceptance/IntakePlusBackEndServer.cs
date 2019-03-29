@@ -1,6 +1,9 @@
 ﻿using LegalTrucking.Tests.Acceptance.Employee.UnitTests;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -14,7 +17,7 @@ namespace LegalTrucking.Tests.Acceptance
 
         internal void StartServingApplication()
         {
-            var projectName = "LegalTrucking.IntakePlus.Web.UI";
+            var projectName = "LegalTrucking.IntakePlus.Web.Ui";
 
             var settings = ConfigHelper.GetConfig();
             var applicationPath = settings["ClientApplicationPath"];
@@ -24,10 +27,10 @@ namespace LegalTrucking.Tests.Acceptance
                 StartInfo =
                 {
                     FileName = @"dotnet.exe",
-                    Arguments = $@"run {applicationPath}\{projectName}.csproj"
+                    Arguments = $@"run --project {applicationPath}\{projectName}.csproj"
                 }
             };
-            _process.Start();
+            var started = _process.Start();
         }
 
         internal void StopServingApplication()
