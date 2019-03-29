@@ -2,6 +2,7 @@
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using Xunit;
 
 namespace LegalTrucking.Tests.Acceptance
 {
@@ -27,9 +28,16 @@ namespace LegalTrucking.Tests.Acceptance
             submitBtn.Click();
         }
 
-        internal void HasShownUserWelcome()
+        internal void HasShownUserWelcome(String welcomeMsg)
         {
-            throw new NotImplementedException();
+            var hasMsg = _webDriver.PageSource.Contains(welcomeMsg);
+            Assert.True(hasMsg, "Page does not contain the welcome message");
         }
+
+        internal void end()
+        {
+            _webDriver.Dispose();
+        }
+
     }
 }

@@ -3,7 +3,7 @@ using Xunit;
 
 namespace LegalTrucking.Tests.Acceptance
 {
-    public class IntakePlusEndToEndTests : IDisposable
+    public class IntakePlusEndToEndTests 
     {
 
         private IntakePlusBackEndServer _server;
@@ -11,6 +11,7 @@ namespace LegalTrucking.Tests.Acceptance
 
         private readonly String USERNAME = "atillman@gmail.com";
         private readonly String PASSWORD = "testing123";
+        private readonly String WELCOME_MSG = "Welcome, Adrian";
 
         public IntakePlusEndToEndTests()
         {
@@ -23,13 +24,10 @@ namespace LegalTrucking.Tests.Acceptance
         {
             _server.StartServingApplication();
             _application.LogIn(USERNAME, PASSWORD);
-            _application.HasShownUserWelcome();
+            _application.HasShownUserWelcome(WELCOME_MSG);
+            _application.end();
             _server.StopServingApplication();
         }
 
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
