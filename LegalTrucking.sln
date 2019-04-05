@@ -5,11 +5,7 @@ VisualStudioVersion = 15.0.28307.489
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LegalTrucking.Tests.Acceptance", "LegalTrucking.Tests.Acceptance\LegalTrucking.Tests.Acceptance.csproj", "{CBB6570A-ABF6-4C7D-91C5-4E7BD3252D9F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{BCBDA3FB-5FB6-46BE-AC58-0AECEC3107DA}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3AAB6DBE-D535-4203-81EC-1149AEF65F8A}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LegalTrucking.IntakePlus.Web.Ui", "LegalTrucking.IntakePlus.Web.Ui\LegalTrucking.IntakePlus.Web.Ui.csproj", "{048EC838-80B1-48FC-9844-6C027D24B4F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,17 +17,12 @@ Global
 		{CBB6570A-ABF6-4C7D-91C5-4E7BD3252D9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBB6570A-ABF6-4C7D-91C5-4E7BD3252D9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBB6570A-ABF6-4C7D-91C5-4E7BD3252D9F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{048EC838-80B1-48FC-9844-6C027D24B4F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{048EC838-80B1-48FC-9844-6C027D24B4F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{048EC838-80B1-48FC-9844-6C027D24B4F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{048EC838-80B1-48FC-9844-6C027D24B4F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{CBB6570A-ABF6-4C7D-91C5-4E7BD3252D9F} = {3AAB6DBE-D535-4203-81EC-1149AEF65F8A}
-		{048EC838-80B1-48FC-9844-6C027D24B4F2} = {BCBDA3FB-5FB6-46BE-AC58-0AECEC3107DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {560BA9A6-A183-4665-80AD-47B4395EE5DD}
