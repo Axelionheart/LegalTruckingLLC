@@ -13,20 +13,20 @@
             <div class="field">
                 <div class="ui left icon input">
                     <i class="user icon"></i>
-                    <input asp-for="UserName" placeholder="Username" />
+                    <input id="UserName" asp-for="UserName" placeholder="UserName" />
                     <span asp-validation-for="UserName" style="color:red;"></span>
                 </div>
             </div>
             <div class="field">
                 <div class="ui left icon input">
                     <i class="lock icon"></i>
-                    <input asp-for="Password" placeholder="Password" />
+                    <input id="Password" asp-for="Password" placeholder="Password" />
                     <span asp-validation-for="Password" style="color:red;"></span>
                 </div>
             </div>
 
             <div>
-                <button class="ui blue button">
+                <button id="SubmitButton" class="ui blue button">
                     <i class="lock icon"></i>
                     LOGIN
                 </button>

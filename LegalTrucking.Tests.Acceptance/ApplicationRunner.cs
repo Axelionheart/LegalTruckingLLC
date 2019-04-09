@@ -12,16 +12,16 @@ namespace LegalTrucking.Tests.Acceptance
       
         public ApplicationRunner()
         {
-            _webDriver = new ChromeDriver("D:\\dev\\selenium-drivers");
+            _webDriver = new ChromeDriver("C:/Users/yasel/dev");
         }
 
         internal void LogIn(String user, String pwd)
         {
             _webDriver.Navigate().GoToUrl("http://localhost:5000");
-            _webDriver.FindElement(By.LinkText("Login")).Click();
-            var usernameField =_webDriver.FindElement(By.Id("Input_Email"));
-            var passwordField = _webDriver.FindElement(By.Id("Input_Password"));
-            var submitBtn = _webDriver.FindElement(By.XPath("//button[@type='submit'][text()='Log in']"));
+            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+            var usernameField =_webDriver.FindElement(By.Id("UserName"));
+            var passwordField = _webDriver.FindElement(By.Id("Password"));
+            var submitBtn = _webDriver.FindElement(By.Id("SubmitButton"));
 
             usernameField.SendKeys(user);
             passwordField.SendKeys(pwd);

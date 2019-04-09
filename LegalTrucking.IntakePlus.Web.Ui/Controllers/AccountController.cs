@@ -8,11 +8,10 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace LegalTrucking.IntakePlus.Web.Ui.Controllers
 {
-    [Route("account")]
+    [Route("Account")]
     public class AccountController : Controller
     {
         private ICustomMembership _membership;
