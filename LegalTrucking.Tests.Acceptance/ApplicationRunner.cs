@@ -39,5 +39,14 @@ namespace LegalTrucking.Tests.Acceptance
             _webDriver.Dispose();
         }
 
+        internal void RequestService()
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void hasShownRequestedServiceAsUnassigned()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

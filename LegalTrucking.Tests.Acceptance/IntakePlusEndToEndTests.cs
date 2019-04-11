@@ -29,5 +29,15 @@ namespace LegalTrucking.Tests.Acceptance
             _server.StopServingApplication();
         }
 
+        [Fact(DisplayName = "Create New Service Request")]
+        public void createNewServiceRequest()
+        {
+            _server.StartServingApplication();
+            _application.LogIn(USERNAME, PASSWORD);
+            _application.RequestService();
+            _application.hasShownRequestedServiceAsUnassigned();
+            _application.end();
+            _server.StartServingApplication();
+        }
     }
 }
