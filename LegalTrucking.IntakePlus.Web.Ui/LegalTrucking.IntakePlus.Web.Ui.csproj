@@ -20,7 +20,7 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Desktop\Legal Trucking\LegalTrucking\CosmosDBCore\CosmosDBRepository.csproj" />
+    <ProjectReference Include="..\CosmosDBCore\CosmosDBRepository.csproj" />
   </ItemGroup>
 
 </Project>

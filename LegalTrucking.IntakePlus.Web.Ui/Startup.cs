@@ -12,11 +12,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using CosmosDBRepository;
 using System.Data.SqlClient;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using LegalTrucking.IntakePlus.Web.Ui.Membership;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using CosmosDBRepository;
 
 namespace LegalTrucking.IntakePlus.Web.Ui
 {

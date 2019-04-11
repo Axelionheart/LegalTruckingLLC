@@ -2,6 +2,8 @@
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
+
 using Xunit;
 
 namespace LegalTrucking.Tests.Acceptance
@@ -37,7 +39,8 @@ namespace LegalTrucking.Tests.Acceptance
         {
             GoToHomepage();
             Login(byWho, theirPwd);
-            
+            _webDriver.FindElement(By.Name("services")).SendKeys("Service Request" + Keys.Enter);
+
         }
 
         internal void hasShownRequestedServiceAsUnassigned(int serviceId)
