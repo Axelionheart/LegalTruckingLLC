@@ -34,8 +34,8 @@ namespace LegalTrucking.Tests.Acceptance
         {
             _server.StartServingApplication();
             _application.LogIn(USERNAME, PASSWORD);
-            _application.RequestService();
-            _application.hasShownRequestedServiceAsUnassigned();
+            _application.RequestService(USERNAME, PASSWORD);
+            _application.hasShownRequestedServiceAsUnassigned(1);
             _application.end();
             _server.StartServingApplication();
         }
