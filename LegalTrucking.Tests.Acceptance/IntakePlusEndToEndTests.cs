@@ -20,7 +20,7 @@ namespace LegalTrucking.Tests.Acceptance
         }
 
         [Fact(DisplayName = "Displays Welcome Message On Login")]
-        public void displaysWelcomeWhenUserLogsIn()
+        public void DisplaysWelcomeWhenUserLogsIn()
         {
             _server.StartServingApplication();
             _application.LogIn(USERNAME, PASSWORD);
@@ -30,12 +30,12 @@ namespace LegalTrucking.Tests.Acceptance
         }
 
         [Fact(DisplayName = "Create New Service Request")]
-        public void createNewServiceRequest()
+        public void CreateNewServiceRequest()
         {
             _server.StartServingApplication();
             _application.LogIn(USERNAME, PASSWORD);
             _application.RequestService(USERNAME, PASSWORD);
-            _application.hasShownRequestedServiceAsUnassigned(1);
+            _application.hasShownRequestedServiceStatusAsNew(1);
             _application.end();
             _server.StartServingApplication();
         }

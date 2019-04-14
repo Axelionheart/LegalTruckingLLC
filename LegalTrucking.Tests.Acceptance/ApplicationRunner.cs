@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Collections.Generic;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
@@ -40,12 +40,36 @@ namespace LegalTrucking.Tests.Acceptance
             GoToHomepage();
             Login(byWho, theirPwd);
             _webDriver.FindElement(By.Name("services")).SendKeys("Service Request" + Keys.Enter);
+            var autoOptions = _webDriver.FindElement(By.Id("search-services"));
+            autoOptions.SendKeys("2290");
 
+            var optionsToSelect = _webDriver.FindElements(By.XPath("//div[@class='sbqs_c']"));
+
+            foreach(var option in optionsToSelect)
+            {
+                if (option.Text.Equals("2290 Intake Form"))
+                {
+                    option.Click();
+                    break;
+                }
+            }
+
+            _webDriver.FindElement(By.Id("CompanyName")).SendKeys("Big Trucks LLC");
+            _webDriver.FindElement(By.Id("CustomerName")).SendKeys("Big Truck LLC");
+            _webDriver.FindElement(By.Id("Address")).SendKeys("1844 16th Ave. S. Tampa, Fl. 22712");
+            _webDriver.FindElement(By.Id("Phone")).SendKeys("999-999-9999");
+            _webDriver.FindElement(By.Id("Email")).SendKeys("adrian@bigtrucks.com");
+            _webDriver.FindElement(By.Id("EIN")).SendKeys("1233456789");
+            _webDriver.FindElement(By.Id("TypeVehicle")).SendKeys("SEMI");
+            _webDriver.FindElement(By.Id("VIN")).SendKeys("666666666666666666");
+
+            _webDriver.FindElement(By.Id("SubmitButton")).Click();
         }
 
-        internal void hasShownRequestedServiceAsUnassigned(int serviceId)
+        internal void hasShownRequestedServiceStatusAsNew(int serviceId)
         {
-            throw new NotImplementedException();
+            _webDriver.Navigate().GoToUrl("http://localhost:5000/services/");
+
         }
 
         private void Login(string user, string pwd)
