@@ -34,8 +34,8 @@ namespace LegalTrucking.Tests.Acceptance
         {
             _server.StartServingApplication();
             _application.LogIn(USERNAME, PASSWORD);
-            _application.RequestService(USERNAME, PASSWORD);
-            _application.hasShownRequestedServiceStatusAsNew(1);
+            var id = _application.RequestService(USERNAME, PASSWORD);
+            _application.hasShownRequestedServiceStatusAsNew(id);
             _application.end();
             _server.StartServingApplication();
         }

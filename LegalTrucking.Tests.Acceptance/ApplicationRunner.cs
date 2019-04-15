@@ -35,7 +35,7 @@ namespace LegalTrucking.Tests.Acceptance
             _webDriver.Dispose();
         }
 
-        internal void RequestService(String byWho, String theirPwd)
+        internal Guid RequestService(String byWho, String theirPwd)
         {
             GoToHomepage();
             Login(byWho, theirPwd);
@@ -64,30 +64,44 @@ namespace LegalTrucking.Tests.Acceptance
             _webDriver.FindElement(By.Id("VIN")).SendKeys("666666666666666666");
 
             _webDriver.FindElement(By.Id("SubmitButton")).Click();
+            Wait();
+            Guid serviceId = Guid.Parse(_webDriver.FindElement(By.Id("service_id")).Text);
+            return serviceId;
         }
 
-        internal void hasShownRequestedServiceStatusAsNew(int serviceId)
+        internal void hasShownRequestedServiceStatusAsNew(Guid serviceId)
         {
-            _webDriver.Navigate().GoToUrl("http://localhost:5000/services/");
+            _webDriver.Navigate().GoToUrl("http://localhost:5000/services/search");
+            Wait();
+            _webDriver.FindElement(By.Id("search_box")).SendKeys(serviceId.ToString());
+            SubmitForm();
+            var status = _webDriver.FindElement(By.Id("status")).Text;
+            Assert.Equal(status, "New");
+        }
 
+        private void SubmitForm()
+        {
+            _webDriver.FindElement(By.Id("SubmitButton")).Click();
         }
 
         private void Login(string user, string pwd)
         {
             var usernameField = _webDriver.FindElement(By.Id("UserName"));
             var passwordField = _webDriver.FindElement(By.Id("Password"));
-            var submitBtn = _webDriver.FindElement(By.Id("SubmitButton"));
-
             usernameField.SendKeys(user);
             passwordField.SendKeys(pwd);
-            submitBtn.Click();
+            SubmitForm();
         }
 
         private void GoToHomepage()
         {
             _webDriver.Navigate().GoToUrl("http://localhost:5000");
-            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+            Wait();
         }
 
+        private void Wait()
+        {
+            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+        }
     }
 }
