@@ -50,6 +50,7 @@
     <Compile Include="Domain\Common\Command.cs" />
     <Compile Include="Domain\Common\IAmAValueType.cs" />
     <Compile Include="Domain\Common\IRequestHandler.cs" />
+    <Compile Include="Domain\Services\IFormData.cs" />
     <Compile Include="Domain\Services\DueDate.cs" />
     <Compile Include="Domain\Services\IScheduler.cs" />
     <Compile Include="Domain\Services\ScheduledDate.cs" />
