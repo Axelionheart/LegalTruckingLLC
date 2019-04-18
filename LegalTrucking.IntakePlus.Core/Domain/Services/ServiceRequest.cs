@@ -16,8 +16,9 @@ namespace LegalTrucking.IntakePlus.Core.Domain.Services
         private Id _assignedTo;
         private DueDate dueDate;
         private ScheduledDate scheduledDate;
-
-        public ServiceRequest(ScheduledDate scheduledDate, Id clientId, Id serviceId, Id assignedTo, DueDate dueDate, Id id): base(id)
+      
+        
+        public ServiceRequest(ScheduledDate scheduledDate, Id clientId, Id serviceId, Id assignedTo, DueDate dueDate): base(Guid.NewGuid())
         {
             this.scheduledDate = scheduledDate;
             this._clientId = clientId;

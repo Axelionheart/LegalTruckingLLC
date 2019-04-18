@@ -12,6 +12,11 @@ namespace LegalTrucking.IntakePlus.Core.Domain.Common
     {
         protected Id id;
 
+        protected AggregateRoot(Guid id)
+        {
+            this.id = new Id(id);
+        }
+
         protected AggregateRoot(Id id)
         {
             this.id = id;

@@ -47,6 +47,7 @@
     <Compile Include="Adapters\Repositories\IRepository.cs" />
     <Compile Include="Adapters\Repositories\IUnitOfWork.cs" />
     <Compile Include="Domain\Common\AggregateRoot.cs" />
+    <Compile Include="Domain\Common\Command.cs" />
     <Compile Include="Domain\Common\IAmAValueType.cs" />
     <Compile Include="Domain\Common\IRequestHandler.cs" />
     <Compile Include="Domain\Services\DueDate.cs" />
