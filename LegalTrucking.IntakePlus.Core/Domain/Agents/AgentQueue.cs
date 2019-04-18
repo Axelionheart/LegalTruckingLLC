@@ -16,12 +16,20 @@ namespace LegalTrucking.IntakePlus.Core.Domain.Agents
             _buffer = new CircularBuffer<Agent>(capacity);
         }
 
-        public void AddAn(Agent agent)
+        public void Add(Agent agent)
         {
             if (this.SizeOf() == _buffer.Capacity)
                 IncreaseBufferCapacity();
 
             _buffer.PushBack(agent);
+        }
+
+        public Agent NextAgent()
+        {
+            var next = this._buffer.Front();
+            this._buffer.PopFront();
+            this._buffer.PushBack(next);
+            return next;
         }
 
         public bool Contains(Agent agent)
@@ -48,5 +56,7 @@ namespace LegalTrucking.IntakePlus.Core.Domain.Agents
                 to.PushBack(agent);
             }
         }
+
+        
     }
 }

@@ -22,7 +22,7 @@ namespace LegalTrucking.Tests.Unit.Domain.Agents
             _agentQueue = new AgentQueue(1);
         };
 
-        Because of = () => _agentQueue.AddAn(agent);
+        Because of = () => _agentQueue.Add(agent);
 
         It should_contain_that_agent = () => _agentQueue.Contains(agent).ShouldEqual(true);
     }
@@ -36,12 +36,39 @@ namespace LegalTrucking.Tests.Unit.Domain.Agents
         Establish context = () =>
         {
             agentQueue = new AgentQueue(1);
-            agentQueue.AddAn(adrian);
+            agentQueue.Add(adrian);
         };
 
-        Because of = () => agentQueue.AddAn(fred);
+        Because of = () => agentQueue.Add(fred);
 
         It should_have_increased_the_capacity_to_be_greater_than_original = () => agentQueue.SizeOf().ShouldEqual(2);
+
+    }
+
+    [Subject(typeof(AgentQueue))]
+    public class When_we_get_an_agent_they_move_to_the_back_of_queue
+    {
+        static AgentQueue agentQueue;
+        static Agent adrian = new Agent("Adrian", "Tillman");
+        static Agent fred = new Agent("Fred", "Sanford");
+        static Agent nextUp;
+        static Agent shouldBeAdrian;
+        static Agent shouldbeFred;
+
+        Establish context = () =>
+        {
+            agentQueue = new AgentQueue(1);
+            agentQueue.Add(adrian);
+            agentQueue.Add(fred);
+            shouldBeAdrian = agentQueue.NextAgent();
+            shouldbeFred = agentQueue.NextAgent();
+        };
+
+        Because of = () => nextUp = agentQueue.NextAgent();
+
+        It should_get_adrian_first = () => shouldBeAdrian.ShouldEqual(adrian);
+        It should_get_fred_next = () => shouldbeFred.ShouldEqual(fred);
+        It should_be_adrian_again = () => nextUp.ShouldEqual(adrian);
 
     }
 }
