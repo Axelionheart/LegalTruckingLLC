@@ -41,12 +41,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapters\Repositories\IAggregateRoot.cs" />
+    <Compile Include="Adapters\Repositories\IAmAUnitOfWorkFactory.cs" />
+    <Compile Include="Adapters\Repositories\Id.cs" />
+    <Compile Include="Adapters\Repositories\IRepository.cs" />
+    <Compile Include="Adapters\Repositories\IUnitOfWork.cs" />
+    <Compile Include="Domain\Common\AggregateRoot.cs" />
+    <Compile Include="Domain\Common\IAmAValueType.cs" />
+    <Compile Include="Domain\Common\IRequestHandler.cs" />
+    <Compile Include="Domain\Services\DueDate.cs" />
+    <Compile Include="Domain\Services\IScheduler.cs" />
+    <Compile Include="Domain\Services\ScheduledDate.cs" />
+    <Compile Include="Domain\Services\ServiceRequest.cs" />
+    <Compile Include="Ports\Commands\Services\ServiceRequestCommand.cs" />
+    <Compile Include="Ports\Handlers\Services\RequestServiceCommandHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Adapters\" />
-    <Folder Include="Domain\" />
-    <Folder Include="Ports\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
