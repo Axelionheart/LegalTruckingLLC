@@ -46,7 +46,10 @@
     <Compile Include="Adapters\Repositories\Id.cs" />
     <Compile Include="Adapters\Repositories\IRepository.cs" />
     <Compile Include="Adapters\Repositories\IUnitOfWork.cs" />
+    <Compile Include="Domain\Agents\Agent.cs" />
+    <Compile Include="Domain\Agents\AgentQueue.cs" />
     <Compile Include="Domain\Common\AggregateRoot.cs" />
+    <Compile Include="Domain\Common\CircularBuffer.cs" />
     <Compile Include="Domain\Common\Command.cs" />
     <Compile Include="Domain\Common\IAmAValueType.cs" />
     <Compile Include="Domain\Common\IRequestHandler.cs" />
