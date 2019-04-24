@@ -23,9 +23,9 @@ namespace LegalTrucking.Tests.Acceptance
         public void DisplaysWelcomeWhenUserLogsIn()
         {
             _server.StartServingApplication();
-            _application.LogIn(USERNAME, PASSWORD);
+            _application.Login(USERNAME, PASSWORD);
             _application.HasShownUserWelcome(WELCOME_MSG);
-            _application.end();
+            _application.End();
             _server.StopServingApplication();
         }
 
@@ -33,10 +33,23 @@ namespace LegalTrucking.Tests.Acceptance
         public void CreateNewServiceRequest()
         {
             _server.StartServingApplication();
-            _application.LogIn(USERNAME, PASSWORD);
+            _application.Login(USERNAME, PASSWORD);
             var id = _application.RequestService(USERNAME, PASSWORD);
             _application.hasShownRequestedServiceStatusAsNew(id);
-            _application.end();
+            _application.End();
+            _server.StartServingApplication();
+        }
+
+        [Fact(DisplayName = "Complete Service Request")]
+        public void CompleteServiceRequest()
+        {
+            _server.StartServingApplication();
+            _application.Login(USERNAME, PASSWORD);
+            var id = _application.RequestService(USERNAME, PASSWORD);
+            _application.hasShownRequestedServiceStatusAsNew(id);
+            _application.RequestToCompleteService(id);
+            _application.HasShownStatusComplete(id);
+            _application.End();
             _server.StartServingApplication();
         }
     }
