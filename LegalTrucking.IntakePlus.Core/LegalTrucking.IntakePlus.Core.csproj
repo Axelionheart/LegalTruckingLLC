@@ -48,6 +48,7 @@
     <Compile Include="Adapters\Repositories\IUnitOfWork.cs" />
     <Compile Include="Domain\Agents\Agent.cs" />
     <Compile Include="Domain\Agents\AgentQueue.cs" />
+    <Compile Include="Domain\Agents\IAgentQueue.cs" />
     <Compile Include="Domain\Common\AggregateRoot.cs" />
     <Compile Include="Domain\Common\CircularBuffer.cs" />
     <Compile Include="Domain\Common\Command.cs" />
@@ -57,7 +58,9 @@
     <Compile Include="Domain\Services\DueDate.cs" />
     <Compile Include="Domain\Services\IScheduler.cs" />
     <Compile Include="Domain\Services\ScheduledDate.cs" />
+    <Compile Include="Domain\Services\Scheduler.cs" />
     <Compile Include="Domain\Services\ServiceRequest.cs" />
+    <Compile Include="Domain\Services\ServiceRequestState.cs" />
     <Compile Include="Ports\Commands\Services\ServiceRequestCommand.cs" />
     <Compile Include="Ports\Handlers\Services\RequestServiceCommandHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

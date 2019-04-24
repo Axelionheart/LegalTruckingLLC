@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace LegalTrucking.IntakePlus.Core.Domain.Agents
 {
-    public class AgentQueue
+    
+    public class AgentQueue : IAgentQueue
     {
         private CircularBuffer<Agent> _buffer;
 
