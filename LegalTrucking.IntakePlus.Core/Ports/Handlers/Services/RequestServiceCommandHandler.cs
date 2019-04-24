@@ -26,7 +26,19 @@ namespace LegalTrucking.IntakePlus.Core.Ports.Handlers.Services
 
         public  ServiceRequestCommand Handle(ServiceRequestCommand command)
         {
-            throw new NotImplementedException();
+            var request = scheduler.Schedule(new ScheduledDate(command.RequestedOn), 
+                                                new Id(command.ClientId), 
+                                                new Id(command.ServiceId));
+
+            using (IUnitOfWork uof = unitOfWorkFactory.CreateUnitOfWork())
+            {
+                repository.UnitOfWork = uof;
+                repository.Add(request);
+                uof.Commit();
+            }
+
+            command.Id = request.Id;
+            return command;
         }
     }
 }

@@ -15,8 +15,9 @@ using FakeItEasy;
 
 namespace LegalTrucking.Tests.Unit.Services.Handlers.Services
 {
-    
-    public class RequestServiceCommandHandlerTest
+
+    [Subject(typeof(RequestServiceCommandHandler))]
+    public class WhenARequestServiceCommandIsReceived
     {
         private static IRequestHandler<ServiceRequestCommand> _requestServiceCommandHandler;
         private static ServiceRequestCommand _newServiceRequest;
@@ -29,41 +30,37 @@ namespace LegalTrucking.Tests.Unit.Services.Handlers.Services
         private static readonly DateTime @on = DateTime.Today;
         private static readonly Guid _serviceId = Guid.NewGuid();
         private static readonly Guid _assignedTo = Guid.NewGuid();
-        private IFormData _formData;
-        
-        [Fact(DisplayName = "A request service command should result in creation of a new service request in new status")]
-        public void WhenARequestServiceCommandIsReceived()
+        private static IFormData _formData;
+
+        Establish context = () =>
         {
-            Establish context = () =>
-            {
-                _repository = A.Fake<IRepository<ServiceRequest>>();
-                _scheduler = A.Fake<IScheduler>();
-                _uoWFactory = A.Fake<IAmAUnitOfWorkFactory>();
-                _uow = A.Fake<IUnitOfWork>();
+            _repository = A.Fake<IRepository<ServiceRequest>>();
+            _scheduler = A.Fake<IScheduler>();
+            _uoWFactory = A.Fake<IAmAUnitOfWorkFactory>();
+            _uow = A.Fake<IUnitOfWork>();
 
-                _newServiceRequest = new ServiceRequestCommand(_clientId, _serviceId, @on, _formData);
+            _newServiceRequest = new ServiceRequestCommand(_clientId, _serviceId, @on, _formData);
                 
-                A.CallTo(() => _scheduler.Schedule(new ScheduledDate(@on), new Id(_clientId), new Id(_serviceId)))
-                    .Returns(new ServiceRequest(new ScheduledDate(@on), 
-                                                new Id(_clientId), 
-                                                new Id(_assignedTo), 
-                                                new Id(_serviceId), 
-                                                new DueDate(on.AddDays(30))));
+            A.CallTo(() => _scheduler.Schedule(new ScheduledDate(@on), new Id(_clientId), new Id(_serviceId)))
+                .Returns(new ServiceRequest(new ScheduledDate(@on), 
+                                            new Id(_clientId), 
+                                            new Id(_assignedTo), 
+                                            new Id(_serviceId), 
+                                            new DueDate(on.AddDays(30))));
 
-                A.CallTo(() => _repository.Add(A<ServiceRequest>.Ignored)).MustHaveHappened();
+            A.CallTo(() => _uoWFactory.CreateUnitOfWork()).Returns(_uow);
+            _requestServiceCommandHandler = new RequestServiceCommandHandler(_scheduler, _repository, _uoWFactory);
 
-                _requestServiceCommandHandler = new RequestServiceCommandHandler(_scheduler, _repository, _uoWFactory);
+        };
 
-            };
+        Because of = () => _requestServiceCommandHandler.Handle(command: _newServiceRequest);
 
-            Because of = () => _requestServiceCommandHandler.Handle(command: _newServiceRequest);
+        It should_add_a_service_request_to_the_repository = () => A.CallTo(() => _repository.Add(A<ServiceRequest>.Ignored)).MustHaveHappened();
+        It should_ask_the_factory_to_create_an_instance_of_a_ServiceRequest = () => A.CallTo(() => _scheduler.Schedule(new ScheduledDate(@on), new Id(_clientId), new Id(_serviceId))).MustHaveHappened();
+        It should_ask_the_session_factory_for_a_unit_of_work = () => A.CallTo(() => _uoWFactory.CreateUnitOfWork()).MustHaveHappened();
+        It should_commit_the_unit_of_work = () => A.CallTo(() => _uow.Commit()).MustHaveHappened();
 
-            It should_add_a_service_request_to_the_repository = () => A.CallTo(() => _repository.Add(A<ServiceRequest>.Ignored)).MustHaveHappened();
-            It should_ask_the_factory_to_create_an_instance_of_a_ServiceRequest = () => A.CallTo(() => _scheduler.Schedule(new ScheduledDate(@on), new Id(_clientId), new Id(_serviceId))).MustHaveHappened();
-            It should_ask_the_session_factory_for_a_unit_of_work = () => A.CallTo(() => _uoWFactory.CreateUnitOfWork()).MustHaveHappened();
-            It should_commit_the_unit_of_work = () => A.CallTo(() => _uow.Commit()).MustHaveHappened();
-
-        }
     }
+    
 
 }

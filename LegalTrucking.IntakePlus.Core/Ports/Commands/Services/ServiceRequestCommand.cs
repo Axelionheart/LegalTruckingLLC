@@ -12,7 +12,10 @@ namespace LegalTrucking.IntakePlus.Core.Ports.Commands.Services
     public class ServiceRequestCommand : Command
     {
        
-        public ServiceRequestCommand(Guid clientId, Guid serviceId, DateTime requestedOn, IFormData data) : base(Guid.NewGuid())
+        public ServiceRequestCommand(Guid clientId, 
+            Guid serviceId, 
+            DateTime requestedOn, 
+            IFormData data) : base(Guid.NewGuid())
         {
             ClientId = clientId;
             ServiceId = serviceId;
