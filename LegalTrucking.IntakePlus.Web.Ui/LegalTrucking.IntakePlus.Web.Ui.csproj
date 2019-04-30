@@ -7,7 +7,7 @@
     <NoWin32Manifest>true</NoWin32Manifest>
     <ApplicationIcon />
     <OutputType>WinExe</OutputType>
-    <StartupObject></StartupObject>
+    <StartupObject>LegalTrucking.IntakePlus.Web.Ui.Program</StartupObject>
   </PropertyGroup>
 
 
