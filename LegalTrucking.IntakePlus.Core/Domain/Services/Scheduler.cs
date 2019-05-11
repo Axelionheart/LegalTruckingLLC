@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LegalTrucking.IntakePlus.Core.Adapters.Repositories;
 using LegalTrucking.IntakePlus.Core.Domain.Agents;
+using Version = LegalTrucking.IntakePlus.Core.Adapters.Repositories.Version;
 
 namespace LegalTrucking.IntakePlus.Core.Domain.Services
 {
@@ -20,9 +21,14 @@ namespace LegalTrucking.IntakePlus.Core.Domain.Services
         public ServiceRequest Schedule(ScheduledDate dateScheduled, Id clientId, Id serviceId)
         {
             Agent next = AssignNextAvailableAgent();
-            ServiceRequest request = new ServiceRequest(dateScheduled, clientId, 
-                                    serviceId, 
-                                    next.Id, new DueDate(DateTime.Now));
+            ServiceRequest request = new ServiceRequest(
+                                            dateScheduled, 
+                                            clientId, 
+                                            serviceId, 
+                                            next.Id, 
+                                            new DueDate(DateTime.Now),
+                                            new Version(), 
+                                            new Id());
             return request;
         }
 

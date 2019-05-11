@@ -8,10 +8,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using LegalTrucking.IntakePlus.Core.Domain.Authentication;
 
 namespace CosmosDBRepository.Users
 {
-    public class UserPersistence
+    public class UserPersistence : IUserPersistence
     {
         private const string USERS_DOCUMENT_COLLECTION_ID = "Users";
         private const string AUTHS_DOCUMENT_COLLECTION_ID = "UserAuthentications";
@@ -54,22 +55,22 @@ namespace CosmosDBRepository.Users
         }
 
         // Users 
-        public async Task<LoginUser> CreateUserAsync(LoginUser user)
+        public async Task<LegalTrucking.IntakePlus.Core.Domain.Authentication.User> CreateUserAsync(LegalTrucking.IntakePlus.Core.Domain.Authentication.User user)
         {
 
             var result = await _client.CreateDocumentAsync(GetUsersCollectionUri(), user, new RequestOptions() { });
-            return JsonConvert.DeserializeObject<LoginUser>(result.Resource.ToString());
+            return JsonConvert.DeserializeObject<LegalTrucking.IntakePlus.Core.Domain.Authentication.User>(result.Resource.ToString());
 
         }
 
-        public async Task<LoginUser> GetUserAsync(string userId)
+        public async Task<LegalTrucking.IntakePlus.Core.Domain.Authentication.User> GetUserAsync(string userId)
         {
 
-            var result = await _client.ReadDocumentAsync<LoginUser>(UriFactory.CreateDocumentUri(_databaseId, USERS_DOCUMENT_COLLECTION_ID, userId));
+            var result = await _client.ReadDocumentAsync<LegalTrucking.IntakePlus.Core.Domain.Authentication.User>(UriFactory.CreateDocumentUri(_databaseId, USERS_DOCUMENT_COLLECTION_ID, userId));
             return result.Document;
         }
 
-        public async Task<LoginUser> GetUserBySessionIdAsync(string sessionId)
+        public async Task<LegalTrucking.IntakePlus.Core.Domain.Authentication.User> GetUserBySessionIdAsync(string sessionId)
         {
 
             var query = _client.CreateDocumentQuery<string>(GetSessionsCollectionUri(), new SqlQuerySpec()
@@ -96,10 +97,10 @@ namespace CosmosDBRepository.Users
 
         }
 
-        public async Task<LoginUser> GetUserByUsernameAsync(string userName)
+        public async Task<LegalTrucking.IntakePlus.Core.Domain.Authentication.User> GetUserByUsernameAsync(string userName)
         {
 
-            var query = _client.CreateDocumentQuery<LoginUser>(GetUsersCollectionUri(), new SqlQuerySpec()
+            var query = _client.CreateDocumentQuery<LegalTrucking.IntakePlus.Core.Domain.Authentication.User>(GetUsersCollectionUri(), new SqlQuerySpec()
             {
 
                 QueryText = "SELECT * FROM Users U WHERE U.Username = @username",
@@ -111,7 +112,7 @@ namespace CosmosDBRepository.Users
             });
 
             var results = await query.AsDocumentQuery()
-                                     .ExecuteNextAsync<LoginUser>();
+                                     .ExecuteNextAsync<LegalTrucking.IntakePlus.Core.Domain.Authentication.User>();
             return results.FirstOrDefault();
         }
 
@@ -133,17 +134,17 @@ namespace CosmosDBRepository.Users
         }
 
 
-        private Uri GetUsersCollectionUri()
+        public Uri GetUsersCollectionUri()
         {
             return UriFactory.CreateDocumentCollectionUri(_databaseId, USERS_DOCUMENT_COLLECTION_ID);
         }
 
-        private Uri GetAuthenticationsCollectionUri()
+        public Uri GetAuthenticationsCollectionUri()
         {
             return UriFactory.CreateDocumentCollectionUri(_databaseId, AUTHS_DOCUMENT_COLLECTION_ID);
         }
 
-        private Uri GetSessionsCollectionUri()
+        public Uri GetSessionsCollectionUri()
         {
             return UriFactory.CreateDocumentCollectionUri(_databaseId, SESSIONS_DOCUMENT_COLLECTION_ID);
         }

@@ -8,6 +8,6 @@ namespace LegalTrucking.IntakePlus.Core.Domain.Common
 {
     public interface IRequestHandler<TRequest> where TRequest : class
     {
-        TRequest Handle(TRequest command);
+        Task<TRequest> HandleAsync(TRequest command);
     }
 }

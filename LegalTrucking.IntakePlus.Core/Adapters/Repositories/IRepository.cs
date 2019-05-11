@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace LegalTrucking.IntakePlus.Core.Adapters.Repositories
 {
-    public interface IRepository<T> where T : IAmAnAggregateRoot
+    public interface IRepository<T, TDocument> where T : IAmAnAggregateRoot<TDocument> where TDocument : IAmADocument
     {
-        T this[Guid id] { get; }
-        IUnitOfWork UnitOfWork { set; }
-        void Add(T aggregate);
-        void Delete(T aggregate);
+        Task<T> GetByIdAsync(Guid id);
+        Task<T> AddAsync(T entity);
+        Task UpdateAsync(T entity);
+        Task DeleteAsync(T entity);
     }
 }

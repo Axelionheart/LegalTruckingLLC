@@ -23,7 +23,7 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\CosmosDBCore\CosmosDBRepository.csproj" />
+    <ProjectReference Include="..\LegalTrucking.IntakePlus.Core\LegalTrucking.IntakePlus.Core.csproj" />
   </ItemGroup>
 
 </Project>

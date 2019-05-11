@@ -1,25 +1,31 @@
-﻿using CosmosDBRepository;
-using CosmosDBRepository.Users;
-using LegalTrucking.IntakePlus.Web.Ui.Membership.Data;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
+
+using LegalTrucking.IntakePlus.Core.Adapters.Exceptions;
+using LegalTrucking.IntakePlus.Core.Domain.Authentication;
+using LegalTrucking.IntakePlus.Core.Ports.Commands.Authentication;
+using LegalTrucking.IntakePlus.Core.Ports.Handlers.Authentication;
+using LegalTrucking.IntakePlus.Web.Ui.Membership.Data;
 
 namespace LegalTrucking.IntakePlus.Web.Ui.Membership
 {
     public class CosmosDBMembership : ICustomMembership
     {
         private IHttpContextAccessor _context;
-        private Persistence _persistence;
+        private IUserRepository _userRepository;
+        private ISessionRepository _sessionRepository;
 
-        public CosmosDBMembership(IHttpContextAccessor context, CustomMembershipOptions options, Persistence persistence)
+        public CosmosDBMembership(IHttpContextAccessor context, CustomMembershipOptions options, 
+            IUserRepository userRepository,
+            ISessionRepository sessionRepository)
         {
             _context = context;
-            _persistence = persistence;
+            _userRepository = userRepository;
+            _sessionRepository = sessionRepository;
             Options = options;
         }
 
@@ -29,31 +35,31 @@ namespace LegalTrucking.IntakePlus.Web.Ui.Membership
         {
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(password);
 
-            var user = new LoginUser()
-            {
-                Username = userName,
-                Email = email,
-                PasswordHash = passwordHash
-            };
-
+            var userRequest = new CreateUserCommand(
+                username: userName,
+                email: email,
+                pwdHash: password
+            );
+            
             try
             {
-                user = await _persistence.Users.CreateUserAsync(user);
+                var handler = new CreateUserCommandHandler(_userRepository);
+                userRequest = await handler.HandleAsync(userRequest);
             }
-            catch (Exception exc)
+            catch (EntityAlreadyExistsException exc)
             {
                 //TODO reduce breadth of exception statement
                 return RegisterResult.GetFailed("Username is already in use");
             }
 
-            await SignInAsync(user);
+            await SignInAsync(userRequest.Id);
 
             return RegisterResult.GetSuccess();
         }
 
         public async Task<LoginResult> LoginAsync(string userName, string password)
         {
-            var user = await _persistence.Users.GetUserByUsernameAsync(userName);
+            var user = await _userRepository.GetUserByUsernameAsync(userName);
 
             if (user == null)
             {
@@ -65,7 +71,7 @@ namespace LegalTrucking.IntakePlus.Web.Ui.Membership
                 return LoginResult.GetFailed();
             }
 
-            await SignInAsync(user);
+            await SignInAsync(user.Id);
 
             return LoginResult.GetSuccess();
         }
@@ -78,8 +84,8 @@ namespace LegalTrucking.IntakePlus.Web.Ui.Membership
                 return false;
             }
 
-            var session = await _persistence.Users.GetSessionAsync(sessionId);
-            if (session.LogoutTime.HasValue)
+            var session = await _sessionRepository.GetByIdAsync(new Guid(sessionId));
+            if (session.IsLoggedOut())
             {
                 return false;
             }
@@ -94,25 +100,20 @@ namespace LegalTrucking.IntakePlus.Web.Ui.Membership
             var sessionId = _context.HttpContext.User.FindFirstValue("sessionId");
             if (sessionId != null)
             {
-                var session = await _persistence.Users.GetSessionAsync(sessionId);
-                session.LogoutTime = DateTime.UtcNow;
-                await _persistence.Users.UpdateSessionAsync(session);
+                var cmd = new LogoutCommand(new Guid(sessionId));
+                await new LogoutCommandHandler(this._sessionRepository).HandleAsync(cmd);
             }
         }
 
 
-        private async Task SignInAsync(LoginUser user)
+        private async Task SignInAsync(Guid user)
         {
-            // key the login to a server-side session id to make it easy to invalidate later
-            var session = new LoginSession()
-            {
-                UserId = user.Id,
-                CreationTime = DateTime.UtcNow
-            };
-            session = await _persistence.Users.CreateSessionAsync(session);
+        
+            var command = new CreateSessionCommand(user);
+            command = await new CreateSessionCommandHandler(this._sessionRepository).HandleAsync(command);
 
             var identity = new ClaimsIdentity(Options.AuthenticationType);
-            identity.AddClaim(new Claim("sessionId", session.Id));
+            identity.AddClaim(new Claim("sessionId", command.Id.ToString()));
             await _context.HttpContext.SignInAsync(new ClaimsPrincipal(identity));
         }
     }

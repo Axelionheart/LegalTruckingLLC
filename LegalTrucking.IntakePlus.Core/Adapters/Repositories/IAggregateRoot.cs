@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace LegalTrucking.IntakePlus.Core.Adapters.Repositories
 {
-    public interface IAmAnAggregateRoot
+    public interface IAmAnAggregateRoot<TDocument> where TDocument : IAmADocument
     {
         Id Id { get; }
+        Version Version { get; }
+        void Load(TDocument document);
+        Version Lock(Version expectedVersion);
+        TDocument ToDocument();
     }
 }

@@ -9,10 +9,11 @@ using LegalTrucking.IntakePlus.Core.Domain.Agents;
 using LegalTrucking.IntakePlus.Core.Domain.Services;
 
 using Machine.Specifications;
+using Version = LegalTrucking.IntakePlus.Core.Adapters.Repositories.Version;
 
 namespace LegalTrucking.Tests.Unit.Domain.Services
 {
-    [Subject(typeof(Scheduler))]
+    [Subject("Creating a new service request should result in assigning a new agent")]
     public class When_we_schedule_a_service_it_gets_assigned_an_agent
     {
         static Scheduler scheduler;
@@ -21,7 +22,7 @@ namespace LegalTrucking.Tests.Unit.Domain.Services
         static Id clientId;
         static Id serviceId;
         static IAgentQueue agentQueue;
-        static Agent adrian = new Agent("Adrian", "Tillman");
+        static Agent adrian = new Agent("Adrian", "Tillman", new Version(), new Id());
         static Guid requestId;
 
         private Establish context = () =>

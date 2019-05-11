@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using LegalTrucking.IntakePlus.Core.Adapters.Repositories;
 using LegalTrucking.IntakePlus.Core.Domain.Agents;
 
 using Machine.Specifications;
+using Version = LegalTrucking.IntakePlus.Core.Adapters.Repositories.Version;
 
 namespace LegalTrucking.Tests.Unit.Domain.Agents
 {
@@ -14,7 +15,10 @@ namespace LegalTrucking.Tests.Unit.Domain.Agents
     public class When_we_add_an_agent_they_get_added_to_the_queue
     {
         static AgentQueue _agentQueue;
-        static Agent agent = new Agent("Adrian", "Tillman");
+        static Agent agent = new Agent("Adrian", 
+                                        "Tillman",
+                                        new Version(),
+                                        new Id());
         static bool doesContain = false;
 
         Establish context = () =>
@@ -30,8 +34,8 @@ namespace LegalTrucking.Tests.Unit.Domain.Agents
     [Subject(typeof(AgentQueue))]
     public class When_we_add_an_agent_if_the_queue_is_full_it_grows{
         static AgentQueue agentQueue;
-        static Agent adrian = new Agent("Adrian", "Tillman");
-        static Agent fred = new Agent("Fred", "Sandford");
+        static Agent adrian = new Agent("Adrian", "Tillman", new Version(), new Id() );
+        static Agent fred = new Agent("Fred", "Sandford", new Version(), new Id());
 
         Establish context = () =>
         {
@@ -49,8 +53,8 @@ namespace LegalTrucking.Tests.Unit.Domain.Agents
     public class When_we_get_an_agent_they_move_to_the_back_of_queue
     {
         static AgentQueue agentQueue;
-        static Agent adrian = new Agent("Adrian", "Tillman");
-        static Agent fred = new Agent("Fred", "Sanford");
+        static Agent adrian = new Agent("Adrian", "Tillman", new Version(),new Id());
+        static Agent fred = new Agent("Fred", "Sanford", new Version(), new Id());
         static Agent nextUp;
         static Agent shouldBeAdrian;
         static Agent shouldbeFred;

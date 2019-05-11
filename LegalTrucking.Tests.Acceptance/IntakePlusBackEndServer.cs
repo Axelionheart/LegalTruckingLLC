@@ -1,5 +1,4 @@
-﻿using LegalTrucking.Tests.Acceptance.Employee.UnitTests;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using OpenQA.Selenium;

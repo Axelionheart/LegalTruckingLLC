@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 
 namespace LegalTrucking.Tests.Acceptance
 {
-    using Microsoft.Extensions.Configuration;
-    namespace Employee.UnitTests
-    {
         public static class ConfigHelper
         {
             public static IConfiguration GetConfig()
@@ -18,5 +16,5 @@ namespace LegalTrucking.Tests.Acceptance
                 return builder.Build();
             }
         }
-    }
+   
 }

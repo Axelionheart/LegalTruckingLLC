@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\newtonsoft.json\9.0.1\lib\netstandard1.0\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,28 +45,55 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adapters\Exceptions\EntityAlreadyExistsException.cs" />
+    <Compile Include="Adapters\Exceptions\EntityNotFoundException.cs" />
+    <Compile Include="Adapters\Infrastructure\Events\IEvent.cs" />
+    <Compile Include="Adapters\Infrastructure\Notifications\INotifier.cs" />
     <Compile Include="Adapters\Repositories\IAggregateRoot.cs" />
+    <Compile Include="Adapters\Repositories\IAmADocument.cs" />
     <Compile Include="Adapters\Repositories\IAmAUnitOfWorkFactory.cs" />
     <Compile Include="Adapters\Repositories\Id.cs" />
     <Compile Include="Adapters\Repositories\IRepository.cs" />
     <Compile Include="Adapters\Repositories\IUnitOfWork.cs" />
+    <Compile Include="Adapters\Repositories\Version.cs" />
     <Compile Include="Domain\Agents\Agent.cs" />
+    <Compile Include="Domain\Agents\AgentDocument.cs" />
     <Compile Include="Domain\Agents\AgentQueue.cs" />
     <Compile Include="Domain\Agents\IAgentQueue.cs" />
+    <Compile Include="Domain\Authentication\ISessionRepository.cs" />
+    <Compile Include="Domain\Authentication\IUserRepository.cs" />
+    <Compile Include="Domain\Authentication\LoginSession.cs" />
+    <Compile Include="Domain\Authentication\LoginSessionDocument.cs" />
+    <Compile Include="Domain\Authentication\User.cs" />
+    <Compile Include="Domain\Authentication\UserDocument.cs" />
     <Compile Include="Domain\Common\AggregateRoot.cs" />
     <Compile Include="Domain\Common\CircularBuffer.cs" />
     <Compile Include="Domain\Common\Command.cs" />
     <Compile Include="Domain\Common\IAmAValueType.cs" />
     <Compile Include="Domain\Common\IRequestHandler.cs" />
+    <Compile Include="Domain\Services\CompletionDate.cs" />
     <Compile Include="Domain\Services\IFormData.cs" />
     <Compile Include="Domain\Services\DueDate.cs" />
     <Compile Include="Domain\Services\IScheduler.cs" />
     <Compile Include="Domain\Services\ScheduledDate.cs" />
     <Compile Include="Domain\Services\Scheduler.cs" />
     <Compile Include="Domain\Services\ServiceRequest.cs" />
+    <Compile Include="Domain\Services\ServiceRequestDocument.cs" />
     <Compile Include="Domain\Services\ServiceRequestState.cs" />
+    <Compile Include="Ports\Commands\Authentication\CreateSessionCommand.cs" />
+    <Compile Include="Ports\Commands\Authentication\CreateUserCommand.cs" />
+    <Compile Include="Ports\Commands\Authentication\LoginCommand.cs" />
+    <Compile Include="Ports\Commands\Authentication\LogoutCommand.cs" />
+    <Compile Include="Ports\Commands\Services\CompleteServiceRequestCommand.cs" />
     <Compile Include="Ports\Commands\Services\ServiceRequestCommand.cs" />
+    <Compile Include="Ports\Events\Services\ServiceRequestCompletedEvent.cs" />
+    <Compile Include="Ports\Handlers\Authentication\CreateSessionCommandHandler.cs" />
+    <Compile Include="Ports\Handlers\Authentication\CreateUserCommandHandler.cs" />
+    <Compile Include="Ports\Handlers\Authentication\LoginCommandHandler.cs" />
+    <Compile Include="Ports\Handlers\Authentication\LogoutCommandHandler.cs" />
+    <Compile Include="Ports\Handlers\Services\CompleteServiceRequestCommandHandler.cs" />
     <Compile Include="Ports\Handlers\Services\RequestServiceCommandHandler.cs" />
+    <Compile Include="Ports\ThinReadLayer\IAmAModelReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

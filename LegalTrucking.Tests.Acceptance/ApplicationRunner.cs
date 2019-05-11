@@ -40,7 +40,6 @@ namespace LegalTrucking.Tests.Acceptance
 
         internal Guid RequestService(String byWho, String theirPwd)
         {
-            Browser.Login(byWho, theirPwd);
             Browser.CompleteServiceRequest();
             Browser.Wait();
             Guid serviceId = Guid.Parse(Browser.GetElementText("service_id"));
@@ -49,7 +48,8 @@ namespace LegalTrucking.Tests.Acceptance
 
         internal void RequestToCompleteService(Guid id)
         {
-            throw new NotImplementedException();
+            Browser.GoToURL("http://localhost:5000/tasks");
+            
         }
 
         public void HasShownStatusComplete(Guid id)

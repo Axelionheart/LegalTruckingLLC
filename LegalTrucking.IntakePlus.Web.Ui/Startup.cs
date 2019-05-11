@@ -16,7 +16,6 @@ using System.Data.SqlClient;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using LegalTrucking.IntakePlus.Web.Ui.Membership;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using CosmosDBRepository;
 
 namespace LegalTrucking.IntakePlus.Web.Ui
 {
@@ -46,15 +45,15 @@ namespace LegalTrucking.IntakePlus.Web.Ui
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddSingleton<Persistence>((s) =>
-            {
-                var p = new Persistence(
-                    new Uri(Configuration["CosmosDB:URL"]),
-                            Configuration["CosmosDB:PrimaryKey"],
-                            Configuration["CosmosDB:DatabaseId"]);
-                p.EnsureSetupAsync().Wait();
-                return p;
-            });
+            //services.AddSingleton<Persistence>((s) =>
+            //{
+            //    var p = new Persistence(
+            //        new Uri(Configuration["CosmosDB:URL"]),
+            //                Configuration["CosmosDB:PrimaryKey"],
+            //                Configuration["CosmosDB:DatabaseId"]);
+            //    p.EnsureSetupAsync().Wait();
+            //    return p;
+            //});
 
             services.AddCustomMembership<CosmosDBMembership>((options) => {
                 options.AuthenticationType = CookieAuthenticationDefaults.AuthenticationScheme;
