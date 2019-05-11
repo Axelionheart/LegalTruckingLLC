@@ -51,10 +51,8 @@
     <Compile Include="Adapters\Infrastructure\Notifications\INotifier.cs" />
     <Compile Include="Adapters\Repositories\IAggregateRoot.cs" />
     <Compile Include="Adapters\Repositories\IAmADocument.cs" />
-    <Compile Include="Adapters\Repositories\IAmAUnitOfWorkFactory.cs" />
     <Compile Include="Adapters\Repositories\Id.cs" />
     <Compile Include="Adapters\Repositories\IRepository.cs" />
-    <Compile Include="Adapters\Repositories\IUnitOfWork.cs" />
     <Compile Include="Adapters\Repositories\Version.cs" />
     <Compile Include="Domain\Agents\Agent.cs" />
     <Compile Include="Domain\Agents\AgentDocument.cs" />
@@ -75,6 +73,7 @@
     <Compile Include="Domain\Services\IFormData.cs" />
     <Compile Include="Domain\Services\DueDate.cs" />
     <Compile Include="Domain\Services\IScheduler.cs" />
+    <Compile Include="Domain\Services\IServiceRequestRepository.cs" />
     <Compile Include="Domain\Services\ScheduledDate.cs" />
     <Compile Include="Domain\Services\Scheduler.cs" />
     <Compile Include="Domain\Services\ServiceRequest.cs" />

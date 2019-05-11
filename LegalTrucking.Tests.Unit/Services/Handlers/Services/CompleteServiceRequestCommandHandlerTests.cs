@@ -23,9 +23,7 @@ namespace LegalTrucking.Tests.Unit.Services.Handlers.Services
         private static IRequestHandler<CompleteServiceRequestCommand> _completeServiceCommandHandler;
         private static CompleteServiceRequestCommand _completeServiceRequestCommand;
 
-        private static FakeRepository<ServiceRequest, ServiceRequestDocument> _repository;
-        private static IAmAUnitOfWorkFactory _uoWFactory;
-        private static IUnitOfWork _uow;
+        private static IServiceRequestRepository _repository;
         private static INotifier _notifier;
 
         private static Guid requestId = Guid.NewGuid();
@@ -40,7 +38,7 @@ namespace LegalTrucking.Tests.Unit.Services.Handlers.Services
 
         Establish context = () =>
         {
-            _repository = new FakeRepository<ServiceRequest, ServiceRequestDocument>();
+            _repository = A.Fake<IServiceRequestRepository>();
             _newServiceRequest = new ServiceRequest(@on,
                 new Id(_clientId),
                 new Id(_serviceId),
@@ -49,15 +47,11 @@ namespace LegalTrucking.Tests.Unit.Services.Handlers.Services
                 new Version(),
                 new Id(requestId));
 
-            _repository.Add(_newServiceRequest);
-
-            _uoWFactory = A.Fake<IAmAUnitOfWorkFactory>();
-            _uow = A.Fake<IUnitOfWork>();
-            _notifier = A.Fake<INotifier>();
+            
+             _notifier = A.Fake<INotifier>();
 
 
-            A.CallTo(() => _uoWFactory.CreateUnitOfWork()).Returns(_uow);
-            A.CallTo(() => _repository[A<Guid>.Ignored]).Returns(_newServiceRequest);
+            A.CallTo(() => _repository.GetByIdAsync(A<Guid>.Ignored)).Returns(_newServiceRequest);
 
 
             _completeServiceRequestCommand = new CompleteServiceRequestCommand(requestId, 
@@ -69,19 +63,13 @@ namespace LegalTrucking.Tests.Unit.Services.Handlers.Services
 
         };
 
-        static ServiceRequest GetServiceRequestFromRepoBy(Guid id)
-        {
-            return _repository[id];
-        }
-
+        
         Because of = async () =>  _completeServiceRequestCommand = await _completeServiceCommandHandler.HandleAsync(command: _completeServiceRequestCommand);
 
-        It should_ask_the_session_factory_for_a_unit_of_work = () => A.CallTo(() => _uoWFactory.CreateUnitOfWork()).MustHaveHappened();
-        It should_commit_the_unit_of_work = () => A.CallTo(() => _uow.Commit()).MustHaveHappened();
-
-        It should_ask_repository_for_servicerequest = () => A.CallTo(() => _repository[A<Guid>.Ignored]).MustHaveHappened();
+     
+        It should_ask_repository_for_servicerequest = () => A.CallTo(() => _repository.GetByIdAsync(A<Guid>.Ignored)).MustHaveHappened();
         It should_tell_the_servicerequest_it_is_complete = () => A.CallTo(() => _newServiceRequest.Completed()).MustHaveHappened();
-        It should_change_the_status_to_complete = () => _newServiceRequest.State.ShouldBeTheSameAs(ServiceRequestState.Complete);   
-        
+        It should_change_the_status_to_complete = () => _newServiceRequest.State.ShouldBeTheSameAs(ServiceRequestState.Complete);
+        It should_ask_repository_to_update_servicerequest = () => A.CallTo(() => _repository.UpdateAsync(A<ServiceRequest>.Ignored)).MustHaveHappened();
     }
 }

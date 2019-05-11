@@ -50,7 +50,7 @@ namespace LegalTrucking.Tests.Unit.Fakes
         {
             throw new NotImplementedException();
         }
-
+        
         #endregion
     }
 }

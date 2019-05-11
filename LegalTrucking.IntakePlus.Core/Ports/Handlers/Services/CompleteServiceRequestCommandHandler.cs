@@ -15,9 +15,9 @@ namespace LegalTrucking.IntakePlus.Core.Ports.Handlers.Services
 {
     public class CompleteServiceRequestCommandHandler : IRequestHandler<CompleteServiceRequestCommand>
     {
-        private IRepository<ServiceRequest, ServiceRequestDocument> _repository;
+        private IServiceRequestRepository _repository;
         
-        public CompleteServiceRequestCommandHandler(IRepository<ServiceRequest, ServiceRequestDocument> repository,
+        public CompleteServiceRequestCommandHandler(IServiceRequestRepository repository,
             INotifier notifier)
         {
             _repository = repository;
@@ -25,7 +25,9 @@ namespace LegalTrucking.IntakePlus.Core.Ports.Handlers.Services
 
         public async Task<CompleteServiceRequestCommand> HandleAsync(CompleteServiceRequestCommand command)
         {
-          
+            var request = await _repository.GetByIdAsync(command.RequestId);
+            request.Completed();
+            await _repository.UpdateAsync(request);
             return command;
         }
     }
