@@ -15,6 +15,7 @@
     <PackageReference Include="BCrypt.Net-Core" Version="1.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Azure.DocumentDB.Core" Version="2.4.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
@@ -24,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LegalTrucking.IntakePlus.Core\LegalTrucking.IntakePlus.Core.csproj" />
+    <ProjectReference Include="..\LegalTrucking.IntakePlus.Infrastructure.CosmosDB\LegalTrucking.IntakePlus.Infrastructure.CosmosDB.csproj" />
   </ItemGroup>
 
 </Project>

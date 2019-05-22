@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Data.SqlClient;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using LegalTrucking.IntakePlus.Web.Ui.Membership;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using LegalTrucking.IntakePlus.Infrastructure.CosmosDB;
+using Microsoft.Azure.Documents.Client;
+using LegalTrucking.IntakePlus.Core.Domain.Authentication;
+using LegalTrucking.IntakePlus.Infrastructure.CosmosDB.Authentication;
 
 namespace LegalTrucking.IntakePlus.Web.Ui
 {
@@ -38,6 +35,11 @@ namespace LegalTrucking.IntakePlus.Web.Ui
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            List<string> collectionNames = new List<string>();
+            collectionNames.Add("Users");
+            DocumentClient _document = new DocumentClient(new Uri(Configuration["CosmosDB:URL"]),
+                                                          Configuration["CosmosDB:PrimaryKey"]);
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -45,15 +47,17 @@ namespace LegalTrucking.IntakePlus.Web.Ui
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            //services.AddSingleton<Persistence>((s) =>
-            //{
-            //    var p = new Persistence(
-            //        new Uri(Configuration["CosmosDB:URL"]),
-            //                Configuration["CosmosDB:PrimaryKey"],
-            //                Configuration["CosmosDB:DatabaseId"]);
-            //    p.EnsureSetupAsync().Wait();
-            //    return p;
-            //});
+            services.TryAddSingleton<CosmosDbClientFactory>((s) =>
+            {                
+                var p = new CosmosDbClientFactory(Configuration["CosmosDB:DatabaseName"],
+                                                  collectionNames,_document);
+                p.EnsureDbSetupAsync().Wait();
+                return p;
+            });
+
+            services.TryAddSingleton<IUserRepository, CosmosDBUserRepository>();
+            services.TryAddTransient<ICosmosDbClientFactory>(S => new CosmosDbClientFactory(Configuration["CosmosDB:DatabaseName"],collectionNames,_document));
+            services.TryAddSingleton<ISessionRepository, LogginSessionRepository>();
 
             services.AddCustomMembership<CosmosDBMembership>((options) => {
                 options.AuthenticationType = CookieAuthenticationDefaults.AuthenticationScheme;

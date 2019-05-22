@@ -24,7 +24,6 @@ namespace LegalTrucking.IntakePlus.Infrastructure.CosmosDB.Authentication
 
         public async Task<User> GetUserByUsernameAsync(string userName)
         {
-
             try
             {
                 var cosmosDbClient = _cosmosDbClientFactory.GetClient(CollectionName);

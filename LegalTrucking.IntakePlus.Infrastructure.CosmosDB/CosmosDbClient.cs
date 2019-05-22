@@ -14,7 +14,6 @@ namespace LegalTrucking.IntakePlus.Infrastructure.CosmosDB
         private readonly string _databaseName;
         private readonly string _collectionName;
         private readonly IDocumentClient _documentClient;
-
        
         public CosmosDbClient(string databaseName, string collectionName, IDocumentClient documentClient)
         {
