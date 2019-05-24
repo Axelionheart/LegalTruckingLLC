@@ -22,13 +22,13 @@ namespace LegalTrucking.IntakePlus.Infrastructure.CosmosDB.Authentication
 
         public override string CollectionName { get; } = "Users";
 
-        public async Task<User> GetUserByUsernameAsync(string userName)
+        public async Task<UserDocument> GetUserByUsernameAsync(string userName)
         {
             try
             {
                 var cosmosDbClient = _cosmosDbClientFactory.GetClient(CollectionName);
                 var query = cosmosDbClient.Client.
-                            CreateDocumentQuery<LegalTrucking.IntakePlus.Core.Domain.Authentication.User>(CollectionName, new SqlQuerySpec()
+                            CreateDocumentQuery<UserDocument>(cosmosDbClient.GetCollectionUri(), new SqlQuerySpec()
                 {
 
                     QueryText = "SELECT * FROM Users U WHERE U.Username = @username",
@@ -37,16 +37,16 @@ namespace LegalTrucking.IntakePlus.Infrastructure.CosmosDB.Authentication
                    new SqlParameter("@username", userName)
                }
 
-                });
+            });
 
                 var results = await query.AsDocumentQuery()
-                                         .ExecuteNextAsync<LegalTrucking.IntakePlus.Core.Domain.Authentication.User>();
-                var document = results.FirstOrDefault();
+                                         .ExecuteNextAsync<UserDocument>();
+                return results.FirstOrDefault();
 
-                var dataObject = JsonConvert.DeserializeObject<User>(document.ToString());
+                /*var dataObject = JsonConvert.DeserializeObject<User>(document.ToString());
                 var aggregate = new User();
                 aggregate.Load(dataObject);
-                return aggregate;
+                return aggregate;*/
             }
             catch (DocumentClientException e)
             {

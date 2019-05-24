@@ -37,8 +37,9 @@ namespace LegalTrucking.IntakePlus.Web.Ui
         {
             List<string> collectionNames = new List<string>();
             collectionNames.Add("Users");
+            collectionNames.Add("Sessions");
             DocumentClient _document = new DocumentClient(new Uri(Configuration["CosmosDB:URL"]),
-                                                          Configuration["CosmosDB:PrimaryKey"]);
+                                                          Configuration["CosmosDB:PrimaryKey"]);            
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -47,17 +48,22 @@ namespace LegalTrucking.IntakePlus.Web.Ui
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.TryAddSingleton<CosmosDbClientFactory>((s) =>
-            {                
-                var p = new CosmosDbClientFactory(Configuration["CosmosDB:DatabaseName"],
+            /*services.AddSingleton<CosmosDbClientFactory>( (s) =>
+            {     
+                _document.OpenAsync();
+                var p = new CosmosDbClientFactory(Configuration["CosmosDB:DatabaseId"],
                                                   collectionNames,_document);
                 p.EnsureDbSetupAsync().Wait();
                 return p;
-            });
+            });*/
+
+            CosmosDbClientFactory myFactory = new CosmosDbClientFactory(Configuration["CosmosDB:DatabaseId"],
+                                                  collectionNames, _document);
+            myFactory.EnsureDbSetupAsync().Wait();
 
             services.TryAddSingleton<IUserRepository, CosmosDBUserRepository>();
-            services.TryAddTransient<ICosmosDbClientFactory>(S => new CosmosDbClientFactory(Configuration["CosmosDB:DatabaseName"],collectionNames,_document));
-            services.TryAddSingleton<ISessionRepository, LogginSessionRepository>();
+            services.TryAddTransient<ICosmosDbClientFactory>(S => new CosmosDbClientFactory(Configuration["CosmosDB:DatabaseId"],collectionNames,_document));
+            services.TryAddSingleton<ISessionRepository, CosmosDBSessionRepository>();
 
             services.AddCustomMembership<CosmosDBMembership>((options) => {
                 options.AuthenticationType = CookieAuthenticationDefaults.AuthenticationScheme;

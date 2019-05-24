@@ -1,13 +1,13 @@
 ﻿using System;
 
 using LegalTrucking.IntakePlus.Core.Adapters.Repositories;
+using Newtonsoft.Json;
 using Version = LegalTrucking.IntakePlus.Core.Adapters.Repositories.Version;
 
 namespace LegalTrucking.IntakePlus.Core.Domain.Authentication
 {
     public class UserDocument : IAmADocument
     {
-
         public UserDocument(Id userId, String username, String email, String hash, DateTime createDate, Version version)
         {
             Id = userId;
@@ -22,6 +22,7 @@ namespace LegalTrucking.IntakePlus.Core.Domain.Authentication
         {
         }
 
+        [JsonProperty("id")]
         public Guid Id { get; set; }
 
         public string Username { get; set; }
@@ -31,6 +32,7 @@ namespace LegalTrucking.IntakePlus.Core.Domain.Authentication
         public string PasswordHash { get; set; }
 
         public DateTime CreationTime { get; set; }
+
         public int Version { get; set; }
     }
 }

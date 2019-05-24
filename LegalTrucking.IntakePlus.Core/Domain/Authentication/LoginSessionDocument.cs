@@ -1,4 +1,5 @@
 ﻿using LegalTrucking.IntakePlus.Core.Adapters.Repositories;
+using Newtonsoft.Json;
 using System;
 using Version = LegalTrucking.IntakePlus.Core.Adapters.Repositories.Version;
 
@@ -17,7 +18,9 @@ namespace LegalTrucking.IntakePlus.Core.Domain.Authentication
             Version = version;
         }
 
+        [JsonProperty("id")]
         public Guid SessionId { get; set; }
+
         public Guid UserId { get; set; }
         public DateTime CreationTime { get; set; }
         public DateTime? LogoutTime { get; set; }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LegalTrucking.IntakePlus.Core.Adapters.Exceptions;
 using LegalTrucking.IntakePlus.Core.Adapters.Repositories;
+using LegalTrucking.IntakePlus.Core.Domain.Authentication;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Newtonsoft.Json;
@@ -13,7 +14,7 @@ using Newtonsoft.Json;
 namespace LegalTrucking.IntakePlus.Infrastructure.CosmosDB
 {
     public abstract class CosmosDbRepository<T, TDocument> :
-        IRepository<T, TDocument>, 
+        IRepository<T, TDocument>,
         IDocumentCollectionContext<T, TDocument> 
         where T : IAmAnAggregateRoot<TDocument>, new() where TDocument : IAmADocument
     {
@@ -29,12 +30,7 @@ namespace LegalTrucking.IntakePlus.Infrastructure.CosmosDB
             try
             {
                 var cosmosDbClient = _cosmosDbClientFactory.GetClient(CollectionName);
-                var document = await cosmosDbClient.ReadDocumentAsync(id.ToString(), new RequestOptions
-                {
-                    PartitionKey = ResolvePartitionKey(id)
-                });
-
-                var dataObject = JsonConvert.DeserializeObject<TDocument>(document.ToString());
+                var document = await cosmosDbClient.ReadDocumentAsync(id.ToString());                var dataObject = JsonConvert.DeserializeObject<TDocument>(document.ToString());
                 var aggregate = new T();
                 aggregate.Load(dataObject);
                 return aggregate;

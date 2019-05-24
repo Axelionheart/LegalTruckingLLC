@@ -8,7 +8,6 @@ namespace LegalTrucking.IntakePlus.Web.Ui.Membership
 {
     public static class CustomMembershipExtensions
     {
-
         public static IServiceCollection AddCustomMembership<T>(this IServiceCollection services, Action<CustomMembershipOptions> options)
             where T : class, ICustomMembership
         {
