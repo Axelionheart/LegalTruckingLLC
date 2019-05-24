@@ -36,25 +36,26 @@ namespace LegalTrucking.IntakePlus.Web.Ui.Membership
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(password);
 
             var userRequest = new CreateUserCommand(
-                username: userName,
-                email: email,
-                pwdHash: password
+                    username: userName,
+                    email: email,
+                    pwdHash: passwordHash
             );
+
+                try
+                {
+                    var handler = new CreateUserCommandHandler(_userRepository);
+                    userRequest = await handler.HandleAsync(userRequest);
+                }
+                catch (EntityAlreadyExistsException exc)
+                {
+                    //TODO reduce breadth of exception statement
+                    return RegisterResult.GetFailed("Username is already in use");
+                }
+
+                await SignInAsync(userRequest.Id);
+
+                return RegisterResult.GetSuccess();
             
-            try
-            {
-                var handler = new CreateUserCommandHandler(_userRepository);
-                userRequest = await handler.HandleAsync(userRequest);
-            }
-            catch (EntityAlreadyExistsException exc)
-            {
-                //TODO reduce breadth of exception statement
-                return RegisterResult.GetFailed("Username is already in use");
-            }
-
-            await SignInAsync(userRequest.Id);
-
-            return RegisterResult.GetSuccess();
         }
 
         public async Task<LoginResult> LoginAsync(string userName, string password)
@@ -85,6 +86,7 @@ namespace LegalTrucking.IntakePlus.Web.Ui.Membership
             }
 
             var session = await _sessionRepository.GetByIdAsync(new Guid(sessionId));
+
             if (session.IsLoggedOut())
             {
                 return false;
@@ -97,7 +99,8 @@ namespace LegalTrucking.IntakePlus.Web.Ui.Membership
         {
             await _context.HttpContext.SignOutAsync();
 
-            var sessionId = _context.HttpContext.User.FindFirstValue("sessionId");
+            var sessionId = _context.HttpContext.User.FindFirstValue("sessionid");
+
             if (sessionId != null)
             {
                 var cmd = new LogoutCommand(new Guid(sessionId));
@@ -105,10 +108,8 @@ namespace LegalTrucking.IntakePlus.Web.Ui.Membership
             }
         }
 
-
         private async Task SignInAsync(Guid user)
-        {
-        
+        {        
             var command = new CreateSessionCommand(user);
             command = await new CreateSessionCommandHandler(this._sessionRepository).HandleAsync(command);
 

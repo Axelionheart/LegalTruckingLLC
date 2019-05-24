@@ -15,17 +15,17 @@ namespace LegalTrucking.IntakePlus.Core.Ports.Handlers.Authentication
             this.repository = repository;
         }
         public async Task<CreateUserCommand> HandleAsync(CreateUserCommand command)
-        {
-            var user = new User(
+        { 
+                var user = new User(
                 username: command.Username,
                 email: command.Email,
                 hash: command.PasswordHash
                 );
 
-            await repository.AddAsync(user);
+                await repository.AddAsync(user);
 
-            command.Id = user.Id;
-            return command;
+                command.Id = user.Id;
+                return command;           
         }
     }
 }

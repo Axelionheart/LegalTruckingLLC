@@ -22,7 +22,7 @@ namespace LegalTrucking.IntakePlus.Core.Ports.Handlers.Authentication
         public async Task<CreateSessionCommand> HandleAsync(CreateSessionCommand command)
         {
             var session = new LoginSession(
-               user: new Id(command.Id),
+               user: new Id(command.User),
                created: DateTime.Now
                );
 

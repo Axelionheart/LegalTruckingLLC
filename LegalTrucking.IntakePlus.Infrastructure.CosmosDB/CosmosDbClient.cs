@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.Documents;
+﻿using LegalTrucking.IntakePlus.Core.Domain.Authentication;
+using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using System;
 using System.Collections.Generic;
@@ -50,6 +51,11 @@ namespace LegalTrucking.IntakePlus.Infrastructure.CosmosDB
         {
             return await _documentClient.DeleteDocumentAsync(
                 UriFactory.CreateDocumentUri(_databaseName, _collectionName, documentId), options, cancellationToken);
+        }
+
+        public Uri GetCollectionUri()
+        {
+            return UriFactory.CreateDocumentCollectionUri(_databaseName,_collectionName);
         }
 
         public IDocumentClient Client => _documentClient;
