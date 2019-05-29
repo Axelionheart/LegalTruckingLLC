@@ -14,7 +14,7 @@ namespace LegalTrucking.Tests.Acceptance
 
         public ApplicationRunner()
         {
-            _browser = new Browser(new ChromeDriver("D:/dev/selenium-drivers"));
+            _browser = new Browser(new ChromeDriver("D:/dev"));
         }
 
         public Browser Browser
@@ -50,6 +50,28 @@ namespace LegalTrucking.Tests.Acceptance
         {
             Browser.GoToURL("http://localhost:5000/tasks");
             
+        }
+
+        internal void HasShownErrorMsg(string errMsg)
+        {
+            var hasMsg = Browser.PageContains(errMsg);
+            Assert.True(hasMsg, "Page does not contain the welcome message");
+        }
+
+        internal void CreateLogin(string userName, string email, string pwd)
+        {
+            Browser.GoToURL("http://localhost:5000/account/register");
+            Browser.Wait();
+            var usernameField = Browser.GetElement("UserName");
+            var emailField = Browser.GetElement("Email");
+            var passwordField = Browser.GetElement("Password");
+
+            usernameField.SendKeys(userName);
+            emailField.SendKeys(email);
+            passwordField.SendKeys(pwd);
+
+            Browser.SubmitForm();
+
         }
 
         public void HasShownStatusComplete(Guid id)

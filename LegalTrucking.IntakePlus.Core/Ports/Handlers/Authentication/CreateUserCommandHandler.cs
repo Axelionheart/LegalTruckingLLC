@@ -8,9 +8,9 @@ namespace LegalTrucking.IntakePlus.Core.Ports.Handlers.Authentication
 {
     public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand>
     {
-        private readonly IRepository<User, UserDocument> repository;
+        private readonly IUserRepository repository;
    
-        public CreateUserCommandHandler(IRepository<User, UserDocument> repository)
+        public CreateUserCommandHandler(IUserRepository repository)
         {
             this.repository = repository;
         }
@@ -22,7 +22,7 @@ namespace LegalTrucking.IntakePlus.Core.Ports.Handlers.Authentication
                 hash: command.PasswordHash
                 );
 
-                await repository.AddAsync(user);
+                user = await repository.AddUserAsync(user);
 
                 command.Id = user.Id;
                 return command;           

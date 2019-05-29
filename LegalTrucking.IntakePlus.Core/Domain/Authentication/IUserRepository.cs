@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 namespace LegalTrucking.IntakePlus.Core.Domain.Authentication
 {
     public interface IUserRepository : IRepository<User, UserDocument> {
-        Task<UserDocument> GetUserByUsernameAsync(string userName);
+        Task<User> GetUserByUsernameAsync(string userName);
+        Task<User> AddUserAsync(User user);
     }
 }

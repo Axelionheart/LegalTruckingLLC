@@ -55,6 +55,11 @@ namespace LegalTrucking.IntakePlus.Core.Domain.Authentication
         }
 
         public string PasswordHash { get; }
+        public string Username
+        {
+            get { return this.username; }
+        }
+
 
     }
 }

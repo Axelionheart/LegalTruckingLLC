@@ -12,6 +12,7 @@ namespace LegalTrucking.Tests.Acceptance
         private readonly String USERNAME = "atillman@gmail.com";
         private readonly String PASSWORD = "testing123";
         private readonly String WELCOME_MSG = "Welcome, Adrian";
+        private readonly String EXISTING_USER_ERROR_MSG = "Sorry, that username is taken";
 
         public IntakePlusEndToEndTests()
         {
@@ -22,9 +23,26 @@ namespace LegalTrucking.Tests.Acceptance
         [Fact(DisplayName = "Displays Welcome Message On Login")]
         public void DisplaysWelcomeWhenUserLogsIn()
         {
+            try
+            {
+                _server.StartServingApplication();
+                _application.Login(USERNAME, PASSWORD);
+                _application.HasShownUserWelcome(WELCOME_MSG);
+            }
+            catch (Exception)
+            {
+                _application.End();
+                _server.StopServingApplication();
+            }
+            
+        }
+
+        [Fact(DisplayName = "Cannot create duplicate login")]
+        public void CreateDuplicateLogin()
+        {
             _server.StartServingApplication();
-            _application.Login(USERNAME, PASSWORD);
-            _application.HasShownUserWelcome(WELCOME_MSG);
+            _application.CreateLogin(USERNAME,USERNAME, PASSWORD);
+            _application.HasShownErrorMsg(EXISTING_USER_ERROR_MSG);
             _application.End();
             _server.StopServingApplication();
         }

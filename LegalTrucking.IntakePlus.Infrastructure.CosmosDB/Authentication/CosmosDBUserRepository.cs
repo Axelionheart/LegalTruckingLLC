@@ -22,7 +22,16 @@ namespace LegalTrucking.IntakePlus.Infrastructure.CosmosDB.Authentication
 
         public override string CollectionName { get; } = "Users";
 
-        public async Task<UserDocument> GetUserByUsernameAsync(string userName)
+        public async Task<User> AddUserAsync(User user)
+        {
+            var result = GetUserByUsernameAsync(user.Username);
+            if (result == null)
+                return await AddAsync(user);
+            else
+                throw new EntityAlreadyExistsException();
+        }
+
+        public async Task<User> GetUserByUsernameAsync(string userName)
         {
             try
             {
@@ -41,12 +50,11 @@ namespace LegalTrucking.IntakePlus.Infrastructure.CosmosDB.Authentication
 
                 var results = await query.AsDocumentQuery()
                                          .ExecuteNextAsync<UserDocument>();
-                return results.FirstOrDefault();
-
-                /*var dataObject = JsonConvert.DeserializeObject<User>(document.ToString());
+                
+                var dataObject = JsonConvert.DeserializeObject<UserDocument>(results.FirstOrDefault().ToString());
                 var aggregate = new User();
                 aggregate.Load(dataObject);
-                return aggregate;*/
+                return aggregate;
             }
             catch (DocumentClientException e)
             {
