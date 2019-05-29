@@ -25,7 +25,7 @@ namespace LegalTrucking.IntakePlus.Infrastructure.CosmosDB.Authentication
         public async Task<User> AddUserAsync(User user)
         {
             var result = GetUserByUsernameAsync(user.Username);
-            if (result == null)
+            if (result.Result == null)
                 return await AddAsync(user);
             else
                 throw new EntityAlreadyExistsException();
@@ -33,28 +33,35 @@ namespace LegalTrucking.IntakePlus.Infrastructure.CosmosDB.Authentication
 
         public async Task<User> GetUserByUsernameAsync(string userName)
         {
+
             try
             {
                 var cosmosDbClient = _cosmosDbClientFactory.GetClient(CollectionName);
                 var query = cosmosDbClient.Client.
-                            CreateDocumentQuery<UserDocument>(cosmosDbClient.GetCollectionUri(), new SqlQuerySpec()
-                {
+                                CreateDocumentQuery<UserDocument>(cosmosDbClient.GetCollectionUri(), new SqlQuerySpec()
+                                {
 
-                    QueryText = "SELECT * FROM Users U WHERE U.Username = @username",
-                    Parameters = new SqlParameterCollection()
-               {
+                                    QueryText = "SELECT * FROM Users U WHERE U.Username = @username",
+                                    Parameters = new SqlParameterCollection()
+                   {
                    new SqlParameter("@username", userName)
-               }
+                   }
 
-            });
+                                });
 
                 var results = await query.AsDocumentQuery()
                                          .ExecuteNextAsync<UserDocument>();
-                
-                var dataObject = JsonConvert.DeserializeObject<UserDocument>(results.FirstOrDefault().ToString());
-                var aggregate = new User();
-                aggregate.Load(dataObject);
-                return aggregate;
+                if (results.Count > 0)
+                {
+                    var dataObject = JsonConvert.DeserializeObject<UserDocument>(results.FirstOrDefault().ToString());
+                    var aggregate = new User();
+                    aggregate.Load(dataObject);
+                    return aggregate;
+                }
+                else
+                {
+                    return null;
+                }
             }
             catch (DocumentClientException e)
             {
@@ -62,10 +69,8 @@ namespace LegalTrucking.IntakePlus.Infrastructure.CosmosDB.Authentication
                 {
                     throw new EntityNotFoundException();
                 }
-
                 throw;
             }
-            
         }
 
         public override PartitionKey ResolvePartitionKey(Guid aggregateId) => new PartitionKey(aggregateId);
