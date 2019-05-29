@@ -53,7 +53,7 @@ namespace LegalTrucking.IntakePlus.Infrastructure.CosmosDB.Authentication
                                          .ExecuteNextAsync<UserDocument>();
                 if (results.Count > 0)
                 {
-                    var dataObject = JsonConvert.DeserializeObject<UserDocument>(results.FirstOrDefault().ToString());
+                    var dataObject = results.FirstOrDefault();
                     var aggregate = new User();
                     aggregate.Load(dataObject);
                     return aggregate;

@@ -45,7 +45,7 @@ namespace LegalTrucking.Tests.Acceptance
 
         public void GoToHomepage()
         {
-            _webDriver.Navigate().GoToUrl("http://localhost:5000/Account/Login");
+            _webDriver.Navigate().GoToUrl("https://localhost:5001/Account/Login");
             Wait();
         }
 

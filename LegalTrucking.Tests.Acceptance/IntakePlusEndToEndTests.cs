@@ -23,18 +23,11 @@ namespace LegalTrucking.Tests.Acceptance
         [Fact(DisplayName = "Displays Welcome Message On Login")]
         public void DisplaysWelcomeWhenUserLogsIn()
         {
-            try
-            {
-                _server.StartServingApplication();
-                _application.Login(USERNAME, PASSWORD);
-                _application.HasShownUserWelcome(WELCOME_MSG);
-            }
-            catch (Exception)
-            {
-                _application.End();
-                _server.StopServingApplication();
-            }
-            
+            _server.StartServingApplication();
+            _application.Login(USERNAME, PASSWORD);
+            _application.HasShownUserWelcome(WELCOME_MSG);
+            _application.End();
+            _server.StopServingApplication();
         }
 
         [Fact(DisplayName = "Cannot create duplicate login")]
