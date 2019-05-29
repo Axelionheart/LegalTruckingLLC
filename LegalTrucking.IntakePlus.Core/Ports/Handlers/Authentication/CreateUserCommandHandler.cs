@@ -19,12 +19,12 @@ namespace LegalTrucking.IntakePlus.Core.Ports.Handlers.Authentication
                 var user = new User(
                 username: command.Username,
                 email: command.Email,
-                hash: command.PasswordHash
+                hash: command.PasswordHash,
+                id: new Id(command.Id)
                 );
-
+                         
                 user = await repository.AddUserAsync(user);
 
-                command.Id = user.Id;
                 return command;           
         }
     }
