@@ -14,7 +14,6 @@ namespace LegalTrucking.IntakePlus.Core.Domain.Authentication
         private String email;
         private String passwordHash;
         private DateTime createDt;
-
         
         public User(String username, String email, String hash) : 
             this(username, email, hash, DateTime.Now, new Version(), new Id())
@@ -54,7 +53,10 @@ namespace LegalTrucking.IntakePlus.Core.Domain.Authentication
                 version);
         }
 
-        public string PasswordHash { get; }
+        public string PasswordHash {
+            get { return this.passwordHash; }
+        }
+
         public string Username
         {
             get { return this.username; }
