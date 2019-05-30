@@ -45,7 +45,7 @@ namespace LegalTrucking.Tests.Acceptance
 
         public void GoToHomepage()
         {
-            _webDriver.Navigate().GoToUrl("https://localhost:5001/Account/Login");
+            _webDriver.Navigate().GoToUrl("http://localhost:5000/Account/Login");
             Wait();
         }
 
@@ -61,7 +61,7 @@ namespace LegalTrucking.Tests.Acceptance
 
         public void Wait()
         {
-            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            _webDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
         }
 
         public void CompleteServiceRequest()

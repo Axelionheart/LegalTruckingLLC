@@ -60,7 +60,7 @@ namespace LegalTrucking.Tests.Acceptance
 
         internal void CreateLogin(string userName, string email, string pwd)
         {
-            Browser.GoToURL("http://localhost:5000/account/register");
+            Browser.GoToURL("http://localhost:5000/Account/Register");
             Browser.Wait();
             var usernameField = Browser.GetElement("UserName");
             var emailField = Browser.GetElement("Email");
