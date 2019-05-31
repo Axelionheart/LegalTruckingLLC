@@ -67,7 +67,7 @@ namespace LegalTrucking.IntakePlus.Web.Ui
 
             services.AddCustomMembership<CosmosDBMembership>((options) => {
                 options.AuthenticationType = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultPathAfterLogin = "/Company/Index";
+                options.DefaultPathAfterLogin = "/Dashboard/Index";
                 options.DefaultPathAfterLogout = "/Account/Login";
             });
 
