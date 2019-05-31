@@ -30,12 +30,21 @@ namespace LegalTrucking.IntakePlus.Core.Domain.Customers
 
         public override void Load(CustomerDocument document)
         {
-            throw new System.NotImplementedException();
+            _name = document.Name;
+            _billingAddress = Address.Parse(document.BillingAddress);
+            _shippingAddress = Address.Parse(document.ShippingAddress);
+            _contactInfo = Contact.Parse(document.Contact);
         }
 
         public override CustomerDocument ToDocument()
         {
-            throw new System.NotImplementedException();
+            return new CustomerDocument(id, version, _name, _billingAddress, _shippingAddress, _contactInfo);
         }
+
+        public override string ToString()
+        {
+            return string.Format("Customer: {0}, Contact: {1}, Billing Address: {2}, Shipping Address: {3}", _name, _contactInfo, _billingAddress, _shippingAddress);
+        }
+
     }
 }
