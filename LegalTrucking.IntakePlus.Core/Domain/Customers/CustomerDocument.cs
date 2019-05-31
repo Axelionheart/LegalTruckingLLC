@@ -1,4 +1,5 @@
 ﻿using LegalTrucking.IntakePlus.Core.Adapters.Repositories;
+using Newtonsoft.Json;
 using System;
 using Version = LegalTrucking.IntakePlus.Core.Adapters.Repositories.Version;
 
@@ -19,6 +20,8 @@ namespace LegalTrucking.IntakePlus.Core.Domain.Customers
 
         public CustomerDocument() { }
 
+
+        [JsonProperty("id")]
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string BillingAddress { get; set; }

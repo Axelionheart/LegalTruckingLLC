@@ -80,9 +80,9 @@
     <Compile Include="Domain\Customers\PhoneNumber.cs" />
     <Compile Include="Domain\Customers\PostCode.cs" />
     <Compile Include="Domain\Customers\Street.cs" />
-    <Compile Include="Domain\Services\CompletionDate.cs" />
+    <Compile Include="Domain\Common\CompletionDate.cs" />
     <Compile Include="Domain\Services\IFormData.cs" />
-    <Compile Include="Domain\Services\DueDate.cs" />
+    <Compile Include="Domain\Common\DueDate.cs" />
     <Compile Include="Domain\Services\IScheduler.cs" />
     <Compile Include="Domain\Services\IServiceRequestRepository.cs" />
     <Compile Include="Domain\Services\ScheduledDate.cs" />
@@ -90,6 +90,10 @@
     <Compile Include="Domain\Services\ServiceRequest.cs" />
     <Compile Include="Domain\Services\ServiceRequestDocument.cs" />
     <Compile Include="Domain\Services\ServiceRequestState.cs" />
+    <Compile Include="Domain\Tasks\ITaskRepository.cs" />
+    <Compile Include="Domain\Tasks\Task.cs" />
+    <Compile Include="Domain\Tasks\TaskDocument.cs" />
+    <Compile Include="Domain\Tasks\TaskStatus.cs" />
     <Compile Include="Ports\Commands\Authentication\CreateSessionCommand.cs" />
     <Compile Include="Ports\Commands\Authentication\CreateUserCommand.cs" />
     <Compile Include="Ports\Commands\Authentication\LoginCommand.cs" />
@@ -97,6 +101,7 @@
     <Compile Include="Ports\Commands\Customers\AddCustomerCommand.cs" />
     <Compile Include="Ports\Commands\Services\CompleteServiceRequestCommand.cs" />
     <Compile Include="Ports\Commands\Services\ServiceRequestCommand.cs" />
+    <Compile Include="Ports\Commands\Tasks\AssignTaskCommand.cs" />
     <Compile Include="Ports\Events\Services\ServiceRequestCompletedEvent.cs" />
     <Compile Include="Ports\Handlers\Authentication\CreateSessionCommandHandler.cs" />
     <Compile Include="Ports\Handlers\Authentication\CreateUserCommandHandler.cs" />
@@ -105,6 +110,7 @@
     <Compile Include="Ports\Handlers\Customers\AddCustomerCommandHandler.cs" />
     <Compile Include="Ports\Handlers\Services\CompleteServiceRequestCommandHandler.cs" />
     <Compile Include="Ports\Handlers\Services\RequestServiceCommandHandler.cs" />
+    <Compile Include="Ports\Handlers\Tasks\AssignTaskCommandHandler.cs" />
     <Compile Include="Ports\ThinReadLayer\IAmAModelReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

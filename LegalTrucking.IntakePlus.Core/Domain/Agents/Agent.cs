@@ -11,6 +11,8 @@ namespace LegalTrucking.IntakePlus.Core.Domain.Agents
 {
     public class Agent : AggregateRoot<AgentDocument>
     {
+        public Agent(String firstName, String lastName) : this(firstName, lastName, new Version(), new Id()) { }
+
         public Agent(String firstName, String lastName, Version version, Id id): base(id, version)
         {
             this.FirstName = firstName;

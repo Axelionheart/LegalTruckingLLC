@@ -90,6 +90,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Handlers\Customers\AddCustomerCommandHandlerTest.cs" />
     <Compile Include="Services\Handlers\Services\RequestServiceCommandHandlerTest.cs" />
+    <Compile Include="Services\Handlers\Tasks\AssignTaskCommandHandlerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
