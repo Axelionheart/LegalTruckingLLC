@@ -48,15 +48,6 @@ namespace LegalTrucking.IntakePlus.Web.Ui
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            /*services.AddSingleton<CosmosDbClientFactory>( (s) =>
-            {     
-                _document.OpenAsync();
-                var p = new CosmosDbClientFactory(Configuration["CosmosDB:DatabaseId"],
-                                                  collectionNames,_document);
-                p.EnsureDbSetupAsync().Wait();
-                return p;
-            });*/
-
             CosmosDbClientFactory myFactory = new CosmosDbClientFactory(Configuration["CosmosDB:DatabaseId"],
                                                   collectionNames, _document);
             myFactory.EnsureDbSetupAsync().Wait();

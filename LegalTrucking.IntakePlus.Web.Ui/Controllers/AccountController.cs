@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LegalTrucking.IntakePlus.Web.Ui.Membership;
 using LegalTrucking.IntakePlus.Web.Ui.Models.account;
+using LegalTrucking.IntakePlus.Web.Ui.Models.Dashboard;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -47,7 +48,7 @@ namespace LegalTrucking.IntakePlus.Web.Ui.Controllers
                 ModelState.AddModelError("", result.ErrorMessage);
                 return View("Register", model);
             }
-
+            
             return LocalRedirect(_membership.Options.DefaultPathAfterLogin);
         }
 

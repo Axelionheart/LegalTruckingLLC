@@ -7,5 +7,6 @@ namespace LegalTrucking.IntakePlus.Web.Ui.Models.Dashboard
 {
     public class DashboardViewModel
     {
+        public string  UserName { get; set; }
     }
 }

@@ -8,7 +8,6 @@ namespace LegalTrucking.IntakePlus.Web.Ui.Models.account
 {
     public class RegisterModel
     {
-
         [Required]
         [StringLength(72)]
         public string UserName { get; set; }

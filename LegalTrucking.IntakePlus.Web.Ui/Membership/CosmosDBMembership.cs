@@ -41,10 +41,13 @@ namespace LegalTrucking.IntakePlus.Web.Ui.Membership
                     pwdHash: passwordHash
             );
 
+            var user = new User();
+
                 try
                 {
                     var handler = new CreateUserCommandHandler(_userRepository);
                     userRequest = await handler.HandleAsync(userRequest);
+                    user = handler.getUser();
                 }
                 catch (EntityAlreadyExistsException exc)
                 {
@@ -52,7 +55,7 @@ namespace LegalTrucking.IntakePlus.Web.Ui.Membership
                     return RegisterResult.GetFailed("Username is already in use");
                 }
 
-                await SignInAsync(userRequest.Id);
+                await SignInAsync(user);
 
                 return RegisterResult.GetSuccess();
             
@@ -72,7 +75,7 @@ namespace LegalTrucking.IntakePlus.Web.Ui.Membership
                 return LoginResult.GetFailed();
             }
 
-            await SignInAsync(user.Id);
+            await SignInAsync(user);
 
             return LoginResult.GetSuccess();
         }
@@ -80,6 +83,7 @@ namespace LegalTrucking.IntakePlus.Web.Ui.Membership
         public async Task<bool> ValidateLoginAsync(ClaimsPrincipal principal)
         {
             var sessionId = principal.FindFirstValue("sessionId");
+
             if (sessionId == null)
             {
                 return false;
@@ -108,13 +112,14 @@ namespace LegalTrucking.IntakePlus.Web.Ui.Membership
             }
         }
 
-        private async Task SignInAsync(Guid user)
+        private async Task SignInAsync(User user)
         {        
-            var command = new CreateSessionCommand(user);
+            var command = new CreateSessionCommand(user.Id);
             command = await new CreateSessionCommandHandler(this._sessionRepository).HandleAsync(command);
 
             var identity = new ClaimsIdentity(Options.AuthenticationType);
             identity.AddClaim(new Claim("sessionId", command.Id.ToString()));
+            identity.AddClaim(new Claim("name", (user.Username).ToString()));
             await _context.HttpContext.SignInAsync(new ClaimsPrincipal(identity));
         }
     }
